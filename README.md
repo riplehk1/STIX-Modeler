@@ -1,10 +1,6 @@
 # STIX 2.1 Drag and Drop Modeler
 
-![Image of UI](https://github.com/STIX-Modeler/UI/blob/develop/example-stix.png)
-
-There are three, primary technologies used to develop this software. React, MobX (state management) and Webpack. Some level of competence with these tech's will be needed to make code changes. SCSS is heavily integrated to allow granular control of styling the application.
-
-I want to be clear, this is not a tool that is intended to visualize a tremendous amount of nodes. For that, a forced directed graph should be used.
+This is a modified version of this [STIX Modeler](https://github.com/STIX-Modeler/UI/tree/develop)
 
 # Definitions
 
@@ -41,29 +37,52 @@ Specific vocab notes
 
 - labels: there are placeholder values located in definition-adapters/Base.js. This can easily be updated to reflect your sharing group or company's standard list for each object or even hidden with the `control` property.
 
-# Usage
+# Dependencies
 
-Currently, the only usage workflow is via a dev build outlined below. This is simple enough for anyone to perform.
+This modeler was developed in and optimized for use with node v20.11.1 and npm 10.2.4
 
- - Pull down bits (via fork or clicking download)
- - $ cd app
- - $npm install
- - $npm start
+Earlier versions of node may not be supported
 
-There is a modest production build that is also integrated. This can get a compiled version deployed in a short amount of time.
+# Installation and Use 
 
-- $ npm run build
+- Install required node dependencies: `npm install`
+- Build: `npm run build`
+- Run: `npm run preview`
 
-The visualization is supported in the latest versions of Chrome, Firefox and Safari.
+## Usage Notes
+In order to model bundles with custom SDOs, the user MUST import the schemas using the "Import" button prior to importing the bundle. Otherwise, custom SDOs will not be displayed.
 
-A proxy (https://github.com/STIX-Modeler/UI/blob/develop/app/src/stores/Proxy.js) has been shimmed in place to submit data from the UI through any give workflow. This should make integration easier to pick up and run with. Right now, a logger is in place simply logging out the object. Simplly JSON.stingify the object and POST to an endpoint that is waiting for JSON 2.1 data.
+# Development Notes
+## Modifications
 
-# Where do we go from here?
+- Replaced node and edge visualization with [React Flow](https://reactflow.dev/), an MIT-licensed open source library for creating and visualizing diagrams.
+- Added a panel for pasting and importing custom SDO extensions from schema JSON
+- Added panels for selecting and modifying SDO extension fields (currently only icon image)
+- Added panel for importing schemas and bundles from JSON files
+- Implemented drag-and-drop functionality for SDO extension objects
+- Added functionality for defining new relationships between SDO objects (including extension)
+- Updated dependencies and removed unused dependencies
+- Upgraded handling of default field and relationship values
 
-A couple things come to mind. First, Some type of complex Indicator pattern expression builder. In STIX 2.0, this was less complicated since the pattern was just STIX syntax. Now that more pattern types are supported, though more powerful, more complex tooling is needed to support fully developing this feature out.
+## Bug Fixes
 
-The second thing that comes to mind, integrating the attack-pattern object with Mitre's CTI repo (https://github.com/mitre/cti).
+- Fixed issues preventing users from pasting in "incomplete" STIX bundles (i.e. bundles where objects are missing optional fields)
+- Fixed modification of timestamps in Details panel
+- Fixed implied fields based on relationships between nodes (e.g. "created_by")
+- Fixed import and modification of nodes with "hashes" fields
+- Added ability to delete external_reference objects from external_references fields
 
-# Contact
 
-Any questions, I can be reached at jason.minnick@gmail.com
+# Quality Assurance
+## Style Guide
+The source code follows a modification of the [Airbnb Javascript Style Guide](https://airbnb.io/javascript/react/)
+## Automated Tools
+The project uses eslint for quality assurance and styling.
+- See current code quality issues: `npm run lint`
+- See and fix code quality issues: `npm run lint:fix`
+
+## DISCLAIMER
+
+This code developed by JHU/APL is for demonstration and research purposes. It is not “turn key” and is not safe for deployment without being tailored to production infrastructure. These files are not being delivered as software and are not appropriate for direct use on any production networks. JHU/APL assumes no liability for the direct use of these files and they are provided strictly as a reference implementation.
+
+NO WARRANTY, NO LIABILITY. THIS MATERIAL IS PROVIDED “AS IS.” JHU/APL MAKES NO REPRESENTATION OR WARRANTY WITH RESPECT TO THE PERFORMANCE OF THE MATERIALS, INCLUDING THEIR SAFETY, EFFECTIVENESS, OR COMMERCIAL VIABILITY, AND DISCLAIMS ALL WARRANTIES IN THE MATERIAL, WHETHER EXPRESS OR IMPLIED, INCLUDING (BUT NOT LIMITED TO) ANY AND ALL IMPLIED WARRANTIES OF PERFORMANCE, MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT OF INTELLECTUAL PROPERTY OR OTHER THIRD PARTY RIGHTS. ANY USER OF THE MATERIAL ASSUMES THE ENTIRE RISK AND LIABILITY FOR USING THE MATERIAL. IN NO EVENT SHALL JHU/APL BE LIABLE TO ANY USER OF THE MATERIAL FOR ANY ACTUAL, INDIRECT, CONSEQUENTIAL, SPECIAL OR OTHER DAMAGES ARISING FROM THE USE OF, OR INABILITY TO USE, THE MATERIAL, INCLUDING, BUT NOT LIMITED TO, ANY DAMAGES FOR LOST PROFITS.
